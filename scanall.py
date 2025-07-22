@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import imutils
 import os
+## import pytesseract
 
 # === Config: Input & Output Folders ===
 input_folder = "input_images"
@@ -74,7 +75,7 @@ def scan_document(image_path):
     warped = four_point_transform(orig, screenCnt.reshape(4, 2) * ratio)
     return warped
 
-# === Process All Images ===
+# === Process and save ===
 for filename in os.listdir(input_folder):
     if filename.lower().endswith((".jpg", ".jpeg", ".png")):
         image_path = os.path.join(input_folder, filename)
@@ -85,3 +86,16 @@ for filename in os.listdir(input_folder):
             save_path = os.path.join(output_folder, f"scanned_{filename}")
             cv2.imwrite(save_path, scanned)
             print(f"Saved scanned document to {save_path}")
+        # Optional OCR Processing Uncomment '##' sections
+
+            # === Extract text from the scanned image ===
+            ##text = pytesseract.image_to_string(scanned)
+
+            # === Save the extracted text to a .txt file ===
+            ##text_filename = os.path.splitext(filename)[0] + '.txt'
+            ##text_path = os.path.join(output_folder, text_filename)
+
+            ##with open(text_path, 'w', encoding='utf-8') as f:
+            ##    f.write(text)
+
+            ##print(f"Extracted text saved to {text_path}")

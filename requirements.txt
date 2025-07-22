@@ -3,3 +3,4 @@ numpy
 imutils
 matplotlib
 scikit-image
+pytesseract

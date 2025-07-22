@@ -9,7 +9,7 @@ This project includes Python scripts for scanning documents from images using Op
 
 Install Python dependencies via pip:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -52,19 +52,19 @@ scikit-image
 
 ### To scan a single image:
 
-```
+```bash
 python scan.py
 ```
 
 ### To debug with visualization of steps:
 
-```
+```bash
 python scandebug.py
 ```
 
 ### To scan folder of images:
 
-```
+```bash
 python scanall.py
 ```
 ---
@@ -87,7 +87,9 @@ python scanall.py
 
 ### 📂 Input & Output Paths
 By default, the script prompts for an input folder or accepts it via command-line. The output folder is created inside the input folder.
-```bash
+
+Replace lines 6-10 with about to use command as shown
+```python
 import sys
 
 # === Config: Input Folder via CLI or Prompt ===
@@ -104,19 +106,51 @@ print(f"Input folder: {input_folder}")
 print(f"Output folder: {output_folder}")
 ```
 
-Replace lines 5-10 with about to use command as shown
+User will be prompted for input folder path:
 ```
 python scanall.py
 ```
-- User will be prompted for input folder path
----
+
 Or
----
+User can provide path along with command
 ```
 python scanall.py ./relative/path/to/images
 ```
 with this customization the code will run in either configuration from the cli
 
+### OCR text extraction (RAG applications)
+
+run:
+#### Ubuntu/Debian
+```bash
+sudo apt-get install tesseract-ocr
+```
+#### macOS
+```bash
+brew install tesseract
+```
+#### Windows
+1. Download: https://digi.bib.uni-mannheim.de/tesseract/
+2. Install and add the install directory to PATH.
+---
+
+After saving the scanned image, add:
+```python
+import pytesseract
+
+            # === Extract text from the scanned image ===
+            text = pytesseract.image_to_string(scanned)
+
+            # === Save the extracted text to a .txt file ===
+            text_filename = os.path.splitext(filename)[0] + '.txt'
+            text_path = os.path.join(output_folder, text_filename)
+
+            with open(text_path, 'w', encoding='utf-8') as f:
+                f.write(text)
+
+            print(f"Extracted text saved to {text_path}")
+
+```
 ---
 
 ## References
